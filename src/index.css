@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-agri-red: #A61D37;
+  --color-agri-green: #004A26;
+}
+
+:root {
+  --agri-red: #A61D37;
+  --agri-green: #004A26;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #f8fafc;
+}
+
+.choice-correct {
+  background-color: #10b981 !important;
+  color: white !important;
+  border-color: #059669 !important;
+}
+
+.choice-wrong {
+  background-color: var(--agri-red) !important;
+  color: white !important;
+  border-color: #821226 !important;
+}
+
+/* Fix for long questions/answers */
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100dvh;
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.fixed-bottom-nav {
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  padding: 1rem;
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+

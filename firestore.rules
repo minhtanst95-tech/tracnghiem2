@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: categories
+    // Fields:
+    //   - name: string (required)
+    //   - description: string (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: questions
+    // Fields:
+    //   - categoryId: string (required)
+    //   - question: string (required)
+    //   - a, b, c, d: string (required)
+    //   - answer: string (required, A/B/C/D)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+             (request.auth.token.email == "minhtanst95@gmail.com");
+    }
+
+    function isValidCategory(data) {
+      return data.keys().hasAll(['name', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 200;
+    }
+
+    function isValidQuestion(data) {
+      let requiredFields = ['categoryId', 'question', 'a', 'b', 'c', 'd', 'answer', 'createdAt'];
+      return data.keys().hasAll(requiredFields) &&
+             data.categoryId is string &&
+             data.question is string && data.question.size() > 0 && data.question.size() < 3000 &&
+             data.a is string && data.a.size() >= 0 && data.a.size() < 1500 &&
+             data.b is string && data.b.size() >= 0 && data.b.size() < 1500 &&
+             data.c is string && data.c.size() >= 0 && data.c.size() < 1500 &&
+             data.d is string && data.d.size() >= 0 && data.d.size() < 1500 &&
+             data.answer in ['A', 'B', 'C', 'D'];
+    }
+
+    // Rules
+    match /categories/{categoryId} {
+      allow read: if true; // Guests can read
+      allow create, update: if isAdmin() && isValidCategory(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /questions/{questionId} {
+      allow read: if true; // Guests can read
+      allow create, update: if isAdmin() && isValidQuestion(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

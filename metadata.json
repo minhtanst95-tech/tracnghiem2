@@ -1,0 +1,5 @@
+{
+  "name": "HỆ THỐNG ÔN TẬP TRẮC NGHIỆM",
+  "description": "Ứng dụng ôn tập trắc nghiệm trực tuyến với tính năng quản lý câu hỏi từ Excel dành cho Admin và làm bài tự do cho khách.",
+  "requestFramePermissions": []
+}

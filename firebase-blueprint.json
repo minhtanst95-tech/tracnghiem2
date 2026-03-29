@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "Category": {
+      "title": "Category",
+      "description": "Lĩnh vực câu hỏi",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Tên lĩnh vực" },
+        "description": { "type": "string", "description": "Mô tả" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "Câu hỏi trắc nghiệm",
+      "type": "object",
+      "properties": {
+        "categoryId": { "type": "string", "description": "ID lĩnh vực" },
+        "question": { "type": "string", "description": "Nội dung câu hỏi" },
+        "a": { "type": "string", "description": "Đáp án A" },
+        "b": { "type": "string", "description": "Đáp án B" },
+        "c": { "type": "string", "description": "Đáp án C" },
+        "d": { "type": "string", "description": "Đáp án D" },
+        "answer": { "type": "string", "description": "Đáp án đúng (A, B, C, D)" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["categoryId", "question", "answer"]
+    }
+  },
+  "firestore": {
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Danh sách các lĩnh vực câu hỏi"
+    },
+    "/questions/{questionId}": {
+      "schema": "Question",
+      "description": "Danh sách các câu hỏi"
+    }
+  }
+}
